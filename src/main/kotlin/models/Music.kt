@@ -8,6 +8,5 @@ data class Music (
     val releaseYear: Int,
     val genre: String,
     val isWrittenByArtist: Boolean,
-    val rating: Int,
     val numberOfPublicStreams: Int,
     val hasVideo: Boolean)
