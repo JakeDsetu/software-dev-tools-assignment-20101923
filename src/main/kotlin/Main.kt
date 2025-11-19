@@ -1,4 +1,5 @@
 package setu.ie
+import persistence.XMLSerializer
 import setu.ie.controllers.ListenAPI
 import setu.ie.controllers.MusicAPI
 import setu.ie.models.Listen
@@ -7,9 +8,10 @@ import setu.ie.utils.isValidCategory
 import setu.ie.utils.readNextBoolean
 import setu.ie.utils.readNextInt
 import setu.ie.utils.readNextLine
+import java.io.File
 import java.lang.System.exit
 
-private val musicAPI = MusicAPI()
+private val musicAPI = MusicAPI(XMLSerializer(File("notes.xml")))
 
 fun main() {
     runMenu()
@@ -37,6 +39,7 @@ fun runMenu() {
         val option = mainMenu()
         when (option) {
             1  -> addSong()
+            2  -> listAllSongs()
             0  -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -61,6 +64,10 @@ fun addSong(){
     } else {
         println("Add Failed")
     }
+}
+
+fun listAllSongs() {
+    println(musicAPI.listAllSongs())
 }
 
 fun exitApp() {
