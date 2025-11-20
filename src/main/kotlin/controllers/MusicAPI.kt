@@ -59,6 +59,12 @@ class MusicAPI(serializerType: Serializer) {
         return false
     }
 
+    fun deleteSong(indexToDelete: Int): Music? {
+        return if (isValidListIndex(indexToDelete, songs)) {
+            songs.removeAt(indexToDelete)
+        } else null
+    }
+
     fun musicExists(musicId: Int): Music? {
         return songs.find { it -> it.id == musicId }
     }

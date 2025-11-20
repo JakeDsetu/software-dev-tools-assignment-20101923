@@ -41,6 +41,7 @@ fun runMenu() {
             1  -> addSong()
             2  -> listAllSongs()
             3  -> updateSong()
+            4  -> deleteSong()
             0  -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -94,6 +95,20 @@ fun updateSong(){
             }
         } else {
             println("There are no notes for this index number")
+        }
+    }
+}
+
+fun deleteSong(){
+    listAllSongs()
+    if (musicAPI.numberOfSongs() > 0) {
+        val indexToDelete = readNextInt("Enter the index of the note to delete: ")
+
+        val songToDelete = musicAPI.deleteSong(indexToDelete)
+        if (songToDelete != null) {
+            println("Delete Successful! Deleted note: ${songToDelete.musicTitle}")
+        } else {
+            println("Delete NOT Successful")
         }
     }
 }
