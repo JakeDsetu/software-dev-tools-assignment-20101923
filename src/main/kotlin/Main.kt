@@ -11,8 +11,8 @@ import setu.ie.utils.readNextLine
 import java.io.File
 import java.lang.System.exit
 
-private val musicAPI = MusicAPI(XMLSerializer(File("notes.xml")))
-private val listenAPI = ListenAPI(XMLSerializer(File("notes.xml")))
+private val musicAPI = MusicAPI(XMLSerializer(File("songs.xml")))
+private val listenAPI = ListenAPI(XMLSerializer(File("listens.xml")))
 
 fun main() {
     runMenu()

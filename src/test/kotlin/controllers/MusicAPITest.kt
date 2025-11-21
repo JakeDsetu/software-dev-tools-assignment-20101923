@@ -81,12 +81,12 @@ class MusicAPITest {
         @Test
         fun `listAllSongs returns Songs with ArrayList has Songs stored`() {
             assertEquals(5, populatedSongs!!.numberOfSongs())
-            val notesString = populatedSongs!!.listAllSongs().lowercase()
-            assertTrue(notesString.contains("walk of fame"))
-            assertTrue(notesString.contains("storm"))
-            assertTrue(notesString.contains("forever"))
-            assertTrue(notesString.contains("image"))
-            assertTrue(notesString.contains("spotlight"))
+            val songsString = populatedSongs!!.listAllSongs().lowercase()
+            assertTrue(songsString.contains("walk of fame"))
+            assertTrue(songsString.contains("storm"))
+            assertTrue(songsString.contains("forever"))
+            assertTrue(songsString.contains("image"))
+            assertTrue(songsString.contains("spotlight"))
         }
     }
 

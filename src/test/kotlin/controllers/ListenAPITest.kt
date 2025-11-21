@@ -71,4 +71,24 @@ class ListenAPITest {
         }
     }
 
+    @Nested
+    inner class ListListens {
+        @Test
+        fun `listAllListens returns No Listens Stored message when ArrayList is empty`() {
+            assertEquals(0, emptyListens!!.numberOfListens())
+            assertTrue(emptyListens!!.listAllListens().lowercase().contains("no listens"))
+        }
+
+        @Test
+        fun `listAllListens returns Listens with ArrayList has Listens stored`() {
+            assertEquals(5, populatedListens!!.numberOfListens())
+            val listensString = populatedListens!!.listAllListens().lowercase()
+            assertTrue(listensString.contains("1"))
+            assertTrue(listensString.contains("2"))
+            assertTrue(listensString.contains("3"))
+            assertTrue(listensString.contains("4"))
+            assertTrue(listensString.contains("5"))
+        }
+    }
+
 }
