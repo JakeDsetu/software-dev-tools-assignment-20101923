@@ -39,4 +39,36 @@ class ListenAPITest {
         populatedListens!!.addListen(SpotlightListen!!)
     }
 
+    @AfterEach
+    fun tearDown(){
+        WalkofFameListen = null
+        StormListen = null
+        StormListen2 = null
+        ImageListen = null
+        SpotlightListen = null
+        populatedListens = null
+        emptyListens = null
+    }
+
+    @Nested
+    inner class AddListens {
+        @Test
+        fun `adding a listen to a populated list adds to ArrayList`() {
+            val newListen = Listen(6, 1, 6, 5, "Youtube", 900)
+            assertEquals(5, populatedListens!!.numberOfListens())
+            assertTrue(populatedListens!!.addListen(newListen))
+            assertEquals(6, populatedListens!!.numberOfListens())
+            assertEquals(newListen, populatedListens!!.findListen(populatedListens!!.numberOfListens() - 1))
+        }
+
+        @Test
+        fun `adding a listen to an empty list adds to ArrayList`() {
+            val newListen = Listen(6, 1, 6, 5, "Youtube", 900)
+            assertEquals(0, emptyListens!!.numberOfListens())
+            assertTrue(emptyListens!!.addListen(newListen))
+            assertEquals(1, emptyListens!!.numberOfListens())
+            assertEquals(newListen, emptyListens!!.findListen(emptyListens!!.numberOfListens() - 1))
+        }
+    }
+
 }
