@@ -13,6 +13,17 @@ fun readNextInt(prompt: String?): Int {
     } while (true)
 }
 
+fun readNextBoolean(prompt: String?): Boolean {
+    do {
+        try {
+            print(prompt)
+            return readln().toBoolean()
+        } catch (e: NumberFormatException) {
+            System.err.println("\tAnswer True or False.")
+        }
+    } while (true)
+}
+
 fun readDoubleNotNull() = readlnOrNull()?.toDoubleOrNull() ?: -1.0
 
 fun readNextDouble(prompt: String?): Double {
