@@ -122,4 +122,24 @@ class ListenAPITest {
         }
     }
 
+    @Nested
+    inner class DeleteListens {
+
+        @Test
+        fun `deleting a Listen that does not exist, returns null`() {
+            assertNull(emptyListens!!.deleteListen(0))
+            assertNull(populatedListens!!.deleteListen(-1))
+            assertNull(populatedListens!!.deleteListen(5))
+        }
+
+        @Test
+        fun `deleting a song that exists delete and returns deleted object`() {
+            assertEquals(5, populatedListens!!.numberOfListens())
+            assertEquals(SpotlightListen, populatedListens!!.deleteListen(4))
+            assertEquals(4, populatedListens!!.numberOfListens())
+            assertEquals(WalkofFameListen, populatedListens!!.deleteListen(0))
+            assertEquals(3, populatedListens!!.numberOfListens())
+        }
+    }
+
 }
