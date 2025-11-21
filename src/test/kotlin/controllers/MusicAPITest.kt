@@ -146,4 +146,14 @@ class MusicAPITest {
             assertEquals(true, populatedSongs!!.findSong(4)!!.hasVideo)
         }
     }
+
+    @Nested
+    inner class CountingMethods {
+
+        @Test
+        fun numberOfSongsCalculatedCorrectly() {
+            assertEquals(5, populatedSongs!!.numberOfSongs())
+            assertEquals(0, emptySongs!!.numberOfSongs())
+        }
+    }
 }
