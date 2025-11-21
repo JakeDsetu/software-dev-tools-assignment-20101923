@@ -111,7 +111,7 @@ class MusicAPITest {
     }
 
     @Nested
-    inner class UpdateNotes {
+    inner class UpdateSongs {
         @Test
         fun `updating a song that does not exist returns false`(){
             assertFalse(populatedSongs!!.updateSong(6, Music(6, "Cry for Me", "Magdalena Bay", 5, 2024, "Pop", true, 800000, false)))

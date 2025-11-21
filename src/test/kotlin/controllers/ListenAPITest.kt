@@ -91,4 +91,35 @@ class ListenAPITest {
         }
     }
 
+    @Nested
+    inner class UpdateListens {
+        @Test
+        fun `updating a listen that does not exist returns false`(){
+            assertFalse(populatedListens!!.updateListen(6, Listen(6, 1, 5, 4, "Spotify", 1200)))
+            assertFalse(populatedListens!!.updateListen(-1, Listen(6, 1, 5, 4, "Spotify", 1200)))
+            assertFalse(emptyListens!!.updateListen(0, Listen(6, 1, 5, 4, "Spotify", 1200)))
+        }
+
+        @Test
+        fun `updating a listen that exists returns true and updates`() {
+
+            assertEquals(SpotlightListen, populatedListens!!.findListen(4))
+            assertEquals(5, populatedListens!!.findListen(4)!!.id)
+            assertEquals(5, populatedListens!!.findListen(4)!!.musicId)
+            assertEquals(0, populatedListens!!.findListen(4)!!.numMinsListenedTo)
+            assertEquals(1, populatedListens!!.findListen(4)!!.listenRating)
+            assertEquals("Deezer", populatedListens!!.findListen(4)!!.application)
+            assertEquals(1900, populatedListens!!.findListen(4)!!.timeOfDay)
+
+
+            assertTrue(populatedListens!!.updateListen(4, Listen(5, 5, 4, 3, "Spotify", 2000)))
+            assertEquals(5, populatedListens!!.findListen(4)!!.id)
+            assertEquals(5, populatedListens!!.findListen(4)!!.musicId)
+            assertEquals(4, populatedListens!!.findListen(4)!!.numMinsListenedTo)
+            assertEquals(3, populatedListens!!.findListen(4)!!.listenRating)
+            assertEquals("Spotify", populatedListens!!.findListen(4)!!.application)
+            assertEquals(2000, populatedListens!!.findListen(4)!!.timeOfDay)
+        }
+    }
+
 }
