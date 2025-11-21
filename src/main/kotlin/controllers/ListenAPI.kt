@@ -1,30 +1,76 @@
 package setu.ie.controllers
 
+import persistence.Serializer
 import setu.ie.models.Listen
+import setu.ie.controllers.MusicAPI
+import setu.ie.models.Music
 
-class ListenAPI(private val musicAPI: MusicAPI) {
-    private val listens = mutableListOf<Listen>()
+class ListenAPI(serializerType: Serializer) {
+    private var serializer: Serializer = serializerType
 
-    fun addListen(listen: Listen){
-        //add code to validate that listenId and musicId exist
-        //add code for adding a listen with a unique id
-        listens.add(listen)
+    private var listens = mutableListOf<Listen>()
+
+    fun addListen(listen: Listen) : Boolean {
+        return listens.add(listen)
     }
 
-    fun getAllListens(): List<Listen> = listens
+    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+        return (index >= 0 && index < list.size)
+    }
+
+    fun isValidIndex(index: Int) :Boolean{
+        return isValidListIndex(index, listens);
+    }
+
+    fun findListen(index: Int): Listen? {
+        return if (isValidListIndex(index, listens)) {
+            listens[index]
+        } else null
+    }
+
+    private fun formatListString(listenToFormat : List<Listen>) : String =
+        listenToFormat
+            .joinToString (separator = "\n") { listen ->
+                listens.indexOf(listen).toString() + ": " + listen.toString() }
+
+    fun numberOfListens(): Int {
+        return listens.size
+    }
+
+    fun listAllListens(): String =
+        if (listens.isEmpty()) "No listens stored"
+        else formatListString(listens)
+
+    fun updateListen(indexToUpdate: Int, listen: Listen): Boolean {
+        val foundListen = findListen(indexToUpdate)
+
+        if ((foundListen != null) && (listen != null)) {
+            foundListen.musicId = listen.musicId
+            foundListen.numMinsListenedTo = listen.numMinsListenedTo
+            foundListen.listenRating = listen.listenRating
+            foundListen.application = listen.application
+            foundListen.timeOfDay = listen.timeOfDay
+            return true
+        }
+        return false
+    }
+
+    fun deleteListen(indexToDelete: Int): Listen? {
+        return if (isValidListIndex(indexToDelete, listens)) {
+            listens.removeAt(indexToDelete)
+        } else null
+    }
 
     fun getListensByMusic(musicId: Int): List<Listen> =
         listens.filter { it.musicId == musicId }
 
-    fun addListenToMusic(listenId: Int, musicId: Int) : String {
-        val listen = listens.find { it.id == listenId }
-        if (listen == null) {
-            return "models.Listen with ID \${listenId} does not exist"
-        } else if (musicAPI.musicExists(musicId) != null) {
-            return "models.Music with ID \${musicId} does not exist."
-        } else {
-            listens[listens.indexOf(listen)] = listen.copy(musicId = musicId)
-            return "models.Listen \${listen.name} moved to music ID \${musicId}."
-        }
+    @Throws(Exception::class)
+    fun load() {
+        listens = serializer.read() as ArrayList<Listen>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(listens)
     }
 }

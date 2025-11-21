@@ -12,6 +12,7 @@ import java.io.File
 import java.lang.System.exit
 
 private val musicAPI = MusicAPI(XMLSerializer(File("notes.xml")))
+private val listenAPI = ListenAPI(XMLSerializer(File("notes.xml")))
 
 fun main() {
     runMenu()
@@ -24,9 +25,13 @@ fun mainMenu(): Int {
          > ----------------------------------
          > | MUSIC MENU                     |
          > |   1) Add a song                |
-         > |   2) List all song             |
+         > |   2) List all songs            |
          > |   3) Update a song             |
          > |   4) Delete a song             |
+         > |   5) Add a listen              |
+         > |   6) List all listens          |
+         > |   7) Update a listen           |
+         > |   8) Delete a listen           |
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -42,6 +47,10 @@ fun runMenu() {
             2  -> listAllSongs()
             3  -> updateSong()
             4  -> deleteSong()
+            5  -> addAListen()
+            6  -> listAllListens()
+            7  -> updateListen()
+            8  -> deleteListen()
             0  -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -59,9 +68,26 @@ fun addSong(){
     val numberOfPublicStreams = readNextInt("Enter the number of Public Listens:")
     val hasVideo = readNextBoolean("Does the song have a music video? True or false:")
 
-    val isAdded = musicAPI.addMusic(Music(id, musicTitle, musicArtist, lengthInMins, releaseYear, genre, isWrittenByArtist, numberOfPublicStreams, hasVideo))
+    val musicIsAdded = musicAPI.addMusic(Music(id, musicTitle, musicArtist, lengthInMins, releaseYear, genre, isWrittenByArtist, numberOfPublicStreams, hasVideo))
 
-    if (isAdded) {
+    if (musicIsAdded) {
+        println("Added Successfully")
+    } else {
+        println("Add Failed")
+    }
+}
+
+fun addAListen(){
+    val id = readNextInt("Enter a listen id:")
+    val musicId = readNextInt("Enter the id of the song listened to: ")
+    val numMinsListenedTo = readNextInt("Enter the number of minutes you listened to the song: ")
+    val listenRating = readNextInt("Enter the rating of the listen (1 - a few seconds to 5 - the full song: ")
+    val application = readNextLine("Enter the application used: ")
+    val timeOfDay = readNextInt("Enter the time of day the listen happened (24 Hour format - e.g. 13:00):")
+
+    val listenIsAdded = listenAPI.addListen(Listen(id, musicId, numMinsListenedTo, listenRating, application, timeOfDay))
+
+    if (listenIsAdded) {
         println("Added Successfully")
     } else {
         println("Add Failed")
@@ -70,6 +96,10 @@ fun addSong(){
 
 fun listAllSongs() {
     println(musicAPI.listAllSongs())
+}
+
+fun listAllListens() {
+    println(listenAPI.listAllListens())
 }
 
 fun updateSong(){
@@ -94,7 +124,30 @@ fun updateSong(){
                 println("Update Failed")
             }
         } else {
-            println("There are no notes for this index number")
+            println("There are no songs for this index number")
+        }
+    }
+}
+
+fun updateListen(){
+    listAllListens()
+    if (listenAPI.numberOfListens() > 0) {
+        val indexToUpdate = readNextInt("Enter the index of the listen to update: ")
+        if (listenAPI.isValidIndex(indexToUpdate)) {
+            val id = readNextInt("Enter a listen id:")
+            val musicId = readNextInt("Enter the id of the song listened to: ")
+            val numMinsListenedTo = readNextInt("Enter the number of minutes you listened to the song: ")
+            val listenRating = readNextInt("Enter the rating of the listen (1 - a few seconds to 5 - the full song: ")
+            val application = readNextLine("Enter the application used: ")
+            val timeOfDay = readNextInt("Enter the time of day the listen happened (24 Hour format - e.g. 13:00):")
+
+            if (listenAPI.updateListen(indexToUpdate, Listen(id, musicId, numMinsListenedTo, listenRating, application, timeOfDay))){
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no listens for this index number")
         }
     }
 }
@@ -106,7 +159,21 @@ fun deleteSong(){
 
         val songToDelete = musicAPI.deleteSong(indexToDelete)
         if (songToDelete != null) {
-            println("Delete Successful! Deleted note: ${songToDelete.musicTitle}")
+            println("Delete Successful! Deleted song: ${songToDelete.musicTitle}")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
+}
+
+fun deleteListen(){
+    listAllListens()
+    if (listenAPI.numberOfListens() > 0) {
+        val indexToDelete = readNextInt("Enter the index of the note to delete: ")
+
+        val listenToDelete = listenAPI.deleteListen(indexToDelete)
+        if (listenToDelete != null) {
+            println("Delete Successful! Deleted listen: ${listenToDelete.id}")
         } else {
             println("Delete NOT Successful")
         }

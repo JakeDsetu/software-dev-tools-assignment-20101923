@@ -8,10 +8,10 @@ class MusicAPI(serializerType: Serializer) {
 
     private var songs = mutableListOf<Music>()
 
-    private fun formatListString(notesToFormat : List<Music>) : String =
-        notesToFormat
-            .joinToString (separator = "\n") { note ->
-                songs.indexOf(note).toString() + ": " + note.toString() }
+    private fun formatListString(musicToFormat : List<Music>) : String =
+        musicToFormat
+            .joinToString (separator = "\n") { music ->
+                songs.indexOf(music).toString() + ": " + music.toString() }
 
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
