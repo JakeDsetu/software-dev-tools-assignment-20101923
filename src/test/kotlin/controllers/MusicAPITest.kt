@@ -89,4 +89,61 @@ class MusicAPITest {
             assertTrue(notesString.contains("spotlight"))
         }
     }
+
+    @Nested
+    inner class DeleteSongs {
+
+        @Test
+        fun `deleting a Song that does not exist, returns null`() {
+            assertNull(emptySongs!!.deleteSong(0))
+            assertNull(populatedSongs!!.deleteSong(-1))
+            assertNull(populatedSongs!!.deleteSong(5))
+        }
+
+        @Test
+        fun `deleting a song that exists delete and returns deleted object`() {
+            assertEquals(5, populatedSongs!!.numberOfSongs())
+            assertEquals(SpotlightJessieWare, populatedSongs!!.deleteSong(4))
+            assertEquals(4, populatedSongs!!.numberOfSongs())
+            assertEquals(WalkofFameMileyCyrus, populatedSongs!!.deleteSong(0))
+            assertEquals(3, populatedSongs!!.numberOfSongs())
+        }
+    }
+
+    @Nested
+    inner class UpdateNotes {
+        @Test
+        fun `updating a song that does not exist returns false`(){
+            assertFalse(populatedSongs!!.updateSong(6, Music(6, "Cry for Me", "Magdalena Bay", 5, 2024, "Pop", true, 800000, false)))
+            assertFalse(populatedSongs!!.updateSong(-1, Music(6, "Cry for Me", "Magdalena Bay", 5, 2024, "Pop", true, 800000, false)))
+            assertFalse(emptySongs!!.updateSong(0, Music(6, "Cry for Me", "Magdalena Bay", 5, 2024, "Pop", true, 800000, false)))
+        }
+
+        @Test
+        fun `updating a song that exists returns true and updates`() {
+
+            assertEquals(SpotlightJessieWare, populatedSongs!!.findSong(4))
+            assertEquals(5, populatedSongs!!.findSong(4)!!.id)
+            assertEquals("Spotlight", populatedSongs!!.findSong(4)!!.musicTitle)
+            assertEquals("Jessie Ware", populatedSongs!!.findSong(4)!!.musicArtist)
+            assertEquals(6, populatedSongs!!.findSong(4)!!.lengthInMins)
+            assertEquals(2020, populatedSongs!!.findSong(4)!!.releaseYear)
+            assertEquals("Pop", populatedSongs!!.findSong(4)!!.genre)
+            assertEquals(false, populatedSongs!!.findSong(4)!!.isWrittenByArtist)
+            assertEquals(3000000, populatedSongs!!.findSong(4)!!.numberOfPublicStreams)
+            assertEquals(true, populatedSongs!!.findSong(4)!!.hasVideo)
+
+
+            assertTrue(populatedSongs!!.updateSong(4, Music(5, "Pearls", "Jessie Ware", 4, 2022, "Pop", false, 2000000, true)))
+            assertEquals(5, populatedSongs!!.findSong(4)!!.id)
+            assertEquals("Pearls", populatedSongs!!.findSong(4)!!.musicTitle)
+            assertEquals("Jessie Ware", populatedSongs!!.findSong(4)!!.musicArtist)
+            assertEquals(4, populatedSongs!!.findSong(4)!!.lengthInMins)
+            assertEquals(2022, populatedSongs!!.findSong(4)!!.releaseYear)
+            assertEquals("Pop", populatedSongs!!.findSong(4)!!.genre)
+            assertEquals(false, populatedSongs!!.findSong(4)!!.isWrittenByArtist)
+            assertEquals(2000000, populatedSongs!!.findSong(4)!!.numberOfPublicStreams)
+            assertEquals(true, populatedSongs!!.findSong(4)!!.hasVideo)
+        }
+    }
 }
