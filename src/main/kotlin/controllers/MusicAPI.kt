@@ -8,7 +8,7 @@ import setu.ie.models.Music
  * and listing songs. It contains a serializer for storing songs, but it is only partially implemented.
  *
  * @property serializer A serializer instance for reading and writing songs.
- * @constructor Initializes the NoteAPI with the specified [serializerType].
+ * @constructor Initializes the MusicAPI with the specified [serializerType].
  */
 class MusicAPI(serializerType: Serializer) {
     private var serializer: Serializer = serializerType
