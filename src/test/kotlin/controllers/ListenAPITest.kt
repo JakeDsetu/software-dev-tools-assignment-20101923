@@ -1,6 +1,5 @@
 package controllers
 
-import setu.ie.models.Listen
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -10,7 +9,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import persistence.XMLSerializer
 import setu.ie.controllers.ListenAPI
-import setu.ie.models.Music
+import setu.ie.models.Listen
 import java.io.File
 import kotlin.test.assertFalse
 
@@ -25,7 +24,7 @@ class ListenAPITest {
     private var emptyListens: ListenAPI? = ListenAPI(XMLSerializer(File("empty-listens.xml")))
 
     @BeforeEach
-    fun setup(){
+    fun setup() {
         WalkofFameListen = Listen(1, 1, 6, 5, "Spotify", 1200)
         StormListen = Listen(2, 2, 4, 5, "Youtube", 1100)
         StormListen2 = Listen(3, 2, 3, 4, "Youtube", 1110)
@@ -40,7 +39,7 @@ class ListenAPITest {
     }
 
     @AfterEach
-    fun tearDown(){
+    fun tearDown() {
         WalkofFameListen = null
         StormListen = null
         StormListen2 = null
@@ -94,7 +93,7 @@ class ListenAPITest {
     @Nested
     inner class UpdateListens {
         @Test
-        fun `updating a listen that does not exist returns false`(){
+        fun `updating a listen that does not exist returns false`() {
             assertFalse(populatedListens!!.updateListen(6, Listen(6, 1, 5, 4, "Spotify", 1200)))
             assertFalse(populatedListens!!.updateListen(-1, Listen(6, 1, 5, 4, "Spotify", 1200)))
             assertFalse(emptyListens!!.updateListen(0, Listen(6, 1, 5, 4, "Spotify", 1200)))
@@ -110,7 +109,6 @@ class ListenAPITest {
             assertEquals(1, populatedListens!!.findListen(4)!!.listenRating)
             assertEquals("Deezer", populatedListens!!.findListen(4)!!.application)
             assertEquals(1900, populatedListens!!.findListen(4)!!.timeOfDay)
-
 
             assertTrue(populatedListens!!.updateListen(4, Listen(5, 5, 4, 3, "Spotify", 2000)))
             assertEquals(5, populatedListens!!.findListen(4)!!.id)
@@ -141,5 +139,4 @@ class ListenAPITest {
             assertEquals(3, populatedListens!!.numberOfListens())
         }
     }
-
 }

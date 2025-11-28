@@ -4,7 +4,6 @@ import setu.ie.controllers.ListenAPI
 import setu.ie.controllers.MusicAPI
 import setu.ie.models.Listen
 import setu.ie.models.Music
-import setu.ie.utils.isValidCategory
 import setu.ie.utils.readNextBoolean
 import setu.ie.utils.readNextInt
 import setu.ie.utils.readNextLine
@@ -14,12 +13,19 @@ import java.lang.System.exit
 private val musicAPI = MusicAPI(XMLSerializer(File("songs.xml")))
 private val listenAPI = ListenAPI(XMLSerializer(File("listens.xml")))
 
+/**
+ * Runs the main menu of the app.
+ */
 fun main() {
     runMenu()
 }
 
+/**
+ * Displays the main menu visually to the user. It waits indefinitely for the user to give an input.
+ */
 fun mainMenu(): Int {
-    print("""
+    print(
+        """
          > ----------------------------------
          > |           MUSIC APP            |
          > ----------------------------------
@@ -35,29 +41,39 @@ fun mainMenu(): Int {
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
-         > ==>> """.trimMargin(">"))
-      return readNextInt(" > ==>>")
+         > ==>> """.trimMargin(
+            ">"
+        )
+    )
+    return readNextInt(" > ==>>")
 }
 
+/**
+ * Runs the options for the menu for the user to input.
+ */
 fun runMenu() {
     do {
         val option = mainMenu()
         when (option) {
-            1  -> addSong()
-            2  -> listAllSongs()
-            3  -> updateSong()
-            4  -> deleteSong()
-            5  -> addAListen()
-            6  -> listAllListens()
-            7  -> updateListen()
-            8  -> deleteListen()
-            0  -> exitApp()
+            1 -> addSong()
+            2 -> listAllSongs()
+            3 -> updateSong()
+            4 -> deleteSong()
+            5 -> addAListen()
+            6 -> listAllListens()
+            7 -> updateListen()
+            8 -> deleteListen()
+            0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
     } while (true)
 }
 
-fun addSong(){
+/**
+ * Allows the user to add a song by answering prompts. Checks that the user has inputted the correct data type.
+ * Tells the user if the add was successful or not.
+ */
+fun addSong() {
     val id = readNextInt("Enter a song id:")
     val musicTitle = readNextLine("Enter the name of the song: ")
     val musicArtist = readNextLine("Enter the name of the artist: ")
@@ -77,7 +93,11 @@ fun addSong(){
     }
 }
 
-fun addAListen(){
+/**
+ * Allows the user to add a listen by answering prompts. Checks that the user has inputted the correct data type.
+ * Tells the user if the add was successful or not.
+ */
+fun addAListen() {
     val id = readNextInt("Enter a listen id:")
     val musicId = readNextInt("Enter the id of the song listened to: ")
     val numMinsListenedTo = readNextInt("Enter the number of minutes you listened to the song: ")
@@ -94,18 +114,28 @@ fun addAListen(){
     }
 }
 
+/**
+ * Lists all songs in the database by calling the function from the API.
+ */
 fun listAllSongs() {
     println(musicAPI.listAllSongs())
 }
 
+/**
+ * Lists all listens in the database by calling the function from the API.
+ */
 fun listAllListens() {
     println(listenAPI.listAllListens())
 }
 
-fun updateSong(){
+/**
+ * Allows the user to update a song by choosing from the available array of songs, then retyping the details.
+ * Tells the user if the index is valid, and if the update was successful or not.
+ */
+fun updateSong() {
     listAllSongs()
     if (musicAPI.numberOfSongs() > 0) {
-        //only ask the user to choose the song if songs exist
+        // only ask the user to choose the song if songs exist
         val indexToUpdate = readNextInt("Enter the index of the song to update: ")
         if (musicAPI.isValidIndex(indexToUpdate)) {
             val id = readNextInt("Enter the id of the song: ")
@@ -118,7 +148,7 @@ fun updateSong(){
             val numberOfPublicStreams = readNextInt("Enter the number of Public Listens:")
             val hasVideo = readNextBoolean("Does the song have a music video? True or false:")
 
-            if (musicAPI.updateSong(indexToUpdate, Music(id, musicTitle, musicArtist, lengthInMins, releaseYear, genre, isWrittenByArtist, numberOfPublicStreams, hasVideo))){
+            if (musicAPI.updateSong(indexToUpdate, Music(id, musicTitle, musicArtist, lengthInMins, releaseYear, genre, isWrittenByArtist, numberOfPublicStreams, hasVideo))) {
                 println("Update Successful")
             } else {
                 println("Update Failed")
@@ -129,7 +159,11 @@ fun updateSong(){
     }
 }
 
-fun updateListen(){
+/**
+ * Allows the user to update a listen by choosing from the available array of listens, then retyping the details.
+ * Tells the user if the index is valid, and if the update was successful or not.
+ */
+fun updateListen() {
     listAllListens()
     if (listenAPI.numberOfListens() > 0) {
         val indexToUpdate = readNextInt("Enter the index of the listen to update: ")
@@ -141,7 +175,7 @@ fun updateListen(){
             val application = readNextLine("Enter the application used: ")
             val timeOfDay = readNextInt("Enter the time of day the listen happened (24 Hour format - e.g. 13:00):")
 
-            if (listenAPI.updateListen(indexToUpdate, Listen(id, musicId, numMinsListenedTo, listenRating, application, timeOfDay))){
+            if (listenAPI.updateListen(indexToUpdate, Listen(id, musicId, numMinsListenedTo, listenRating, application, timeOfDay))) {
                 println("Update Successful")
             } else {
                 println("Update Failed")
@@ -152,7 +186,11 @@ fun updateListen(){
     }
 }
 
-fun deleteSong(){
+/**
+ * Allows the user to delete a song by choosing an index from the array.
+ * Tells the user if the index was valid, and if the delete was successful or not.
+ */
+fun deleteSong() {
     listAllSongs()
     if (musicAPI.numberOfSongs() > 0) {
         val indexToDelete = readNextInt("Enter the index of the note to delete: ")
@@ -166,7 +204,11 @@ fun deleteSong(){
     }
 }
 
-fun deleteListen(){
+/**
+ * Allows the user to delete a listen by choosing an index from the array.
+ * Tells the user if the index was valid, and if the delete was successful or not.
+ */
+fun deleteListen() {
     listAllListens()
     if (listenAPI.numberOfListens() > 0) {
         val indexToDelete = readNextInt("Enter the index of the note to delete: ")
@@ -180,6 +222,9 @@ fun deleteListen(){
     }
 }
 
+/**
+ * Makes the app stop running.
+ */
 fun exitApp() {
     println("Exiting...bye")
     exit(0)
