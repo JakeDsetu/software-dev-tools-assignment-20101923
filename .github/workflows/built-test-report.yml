@@ -18,7 +18,9 @@ jobs:
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-
+      
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
       # Runs the Gradle build task
       - name: Run the Gradle Build
         run: ./gradlew build
