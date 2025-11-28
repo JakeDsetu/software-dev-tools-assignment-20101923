@@ -13,10 +13,16 @@ import java.lang.System.exit
 private val musicAPI = MusicAPI(XMLSerializer(File("songs.xml")))
 private val listenAPI = ListenAPI(XMLSerializer(File("listens.xml")))
 
+/**
+ * Runs the main menu of the app.
+ */
 fun main() {
     runMenu()
 }
 
+/**
+ * Displays the main menu visually to the user. It waits indefinitely for the user to give an input.
+ */
 fun mainMenu(): Int {
     print(
         """
@@ -42,6 +48,9 @@ fun mainMenu(): Int {
     return readNextInt(" > ==>>")
 }
 
+/**
+ * Runs the options for the menu for the user to input.
+ */
 fun runMenu() {
     do {
         val option = mainMenu()
@@ -60,6 +69,10 @@ fun runMenu() {
     } while (true)
 }
 
+/**
+ * Allows the user to add a song by answering prompts. Checks that the user has inputted the correct data type.
+ * Tells the user if the add was successful or not.
+ */
 fun addSong() {
     val id = readNextInt("Enter a song id:")
     val musicTitle = readNextLine("Enter the name of the song: ")
@@ -80,6 +93,10 @@ fun addSong() {
     }
 }
 
+/**
+ * Allows the user to add a listen by answering prompts. Checks that the user has inputted the correct data type.
+ * Tells the user if the add was successful or not.
+ */
 fun addAListen() {
     val id = readNextInt("Enter a listen id:")
     val musicId = readNextInt("Enter the id of the song listened to: ")
@@ -97,14 +114,24 @@ fun addAListen() {
     }
 }
 
+/**
+ * Lists all songs in the database by calling the function from the API.
+ */
 fun listAllSongs() {
     println(musicAPI.listAllSongs())
 }
 
+/**
+ * Lists all listens in the database by calling the function from the API.
+ */
 fun listAllListens() {
     println(listenAPI.listAllListens())
 }
 
+/**
+ * Allows the user to update a song by choosing from the available array of songs, then retyping the details.
+ * Tells the user if the index is valid, and if the update was successful or not.
+ */
 fun updateSong() {
     listAllSongs()
     if (musicAPI.numberOfSongs() > 0) {
@@ -132,6 +159,10 @@ fun updateSong() {
     }
 }
 
+/**
+ * Allows the user to update a listen by choosing from the available array of listens, then retyping the details.
+ * Tells the user if the index is valid, and if the update was successful or not.
+ */
 fun updateListen() {
     listAllListens()
     if (listenAPI.numberOfListens() > 0) {
@@ -155,6 +186,10 @@ fun updateListen() {
     }
 }
 
+/**
+ * Allows the user to delete a song by choosing an index from the array.
+ * Tells the user if the index was valid, and if the delete was successful or not.
+ */
 fun deleteSong() {
     listAllSongs()
     if (musicAPI.numberOfSongs() > 0) {
@@ -169,6 +204,10 @@ fun deleteSong() {
     }
 }
 
+/**
+ * Allows the user to delete a listen by choosing an index from the array.
+ * Tells the user if the index was valid, and if the delete was successful or not.
+ */
 fun deleteListen() {
     listAllListens()
     if (listenAPI.numberOfListens() > 0) {
@@ -183,6 +222,9 @@ fun deleteListen() {
     }
 }
 
+/**
+ * Makes the app stop running.
+ */
 fun exitApp() {
     println("Exiting...bye")
     exit(0)
