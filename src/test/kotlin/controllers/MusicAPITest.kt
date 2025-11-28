@@ -1,6 +1,5 @@
 package controllers
 
-import setu.ie.models.Music
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -10,6 +9,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import persistence.XMLSerializer
 import setu.ie.controllers.MusicAPI
+import setu.ie.models.Music
 import java.io.File
 import kotlin.test.assertFalse
 
@@ -24,7 +24,7 @@ class MusicAPITest {
     private var emptySongs: MusicAPI? = MusicAPI(XMLSerializer(File("empty-songs.xml")))
 
     @BeforeEach
-    fun setup(){
+    fun setup() {
         WalkofFameMileyCyrus = Music(1, "Walk of Fame", "Miley Cyrus", 6, 2025, "Pop", true, 12000000, true)
         StormNightTapes = Music(2, "Storm", "Night Tapes", 4, 2025, "Electronic", true, 1000000, true)
         ForeverNightTapes = Music(3, "Forever", "Night Tapes", 4, 2019, "Pop", true, 1200000, false)
@@ -39,7 +39,7 @@ class MusicAPITest {
     }
 
     @AfterEach
-    fun tearDown(){
+    fun tearDown() {
         WalkofFameMileyCyrus = null
         StormNightTapes = null
         ForeverNightTapes = null
@@ -113,7 +113,7 @@ class MusicAPITest {
     @Nested
     inner class UpdateSongs {
         @Test
-        fun `updating a song that does not exist returns false`(){
+        fun `updating a song that does not exist returns false`() {
             assertFalse(populatedSongs!!.updateSong(6, Music(6, "Cry for Me", "Magdalena Bay", 5, 2024, "Pop", true, 800000, false)))
             assertFalse(populatedSongs!!.updateSong(-1, Music(6, "Cry for Me", "Magdalena Bay", 5, 2024, "Pop", true, 800000, false)))
             assertFalse(emptySongs!!.updateSong(0, Music(6, "Cry for Me", "Magdalena Bay", 5, 2024, "Pop", true, 800000, false)))
@@ -132,7 +132,6 @@ class MusicAPITest {
             assertEquals(false, populatedSongs!!.findSong(4)!!.isWrittenByArtist)
             assertEquals(3000000, populatedSongs!!.findSong(4)!!.numberOfPublicStreams)
             assertEquals(true, populatedSongs!!.findSong(4)!!.hasVideo)
-
 
             assertTrue(populatedSongs!!.updateSong(4, Music(5, "Pearls", "Jessie Ware", 4, 2022, "Pop", false, 2000000, true)))
             assertEquals(5, populatedSongs!!.findSong(4)!!.id)

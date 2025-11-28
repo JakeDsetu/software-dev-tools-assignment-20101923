@@ -2,15 +2,13 @@ package setu.ie.controllers
 
 import persistence.Serializer
 import setu.ie.models.Listen
-import setu.ie.controllers.MusicAPI
-import setu.ie.models.Music
 
 class ListenAPI(serializerType: Serializer) {
     private var serializer: Serializer = serializerType
 
     private var listens = mutableListOf<Listen>()
 
-    fun addListen(listen: Listen) : Boolean {
+    fun addListen(listen: Listen): Boolean {
         return listens.add(listen)
     }
 
@@ -18,8 +16,8 @@ class ListenAPI(serializerType: Serializer) {
         return (index >= 0 && index < list.size)
     }
 
-    fun isValidIndex(index: Int) :Boolean{
-        return isValidListIndex(index, listens);
+    fun isValidIndex(index: Int): Boolean {
+        return isValidListIndex(index, listens)
     }
 
     fun findListen(index: Int): Listen? {
@@ -28,10 +26,11 @@ class ListenAPI(serializerType: Serializer) {
         } else null
     }
 
-    private fun formatListString(listenToFormat : List<Listen>) : String =
+    private fun formatListString(listenToFormat: List<Listen>): String =
         listenToFormat
-            .joinToString (separator = "\n") { listen ->
-                listens.indexOf(listen).toString() + ": " + listen.toString() }
+            .joinToString(separator = "\n") { listen ->
+                listens.indexOf(listen).toString() + ": " + listen.toString()
+            }
 
     fun numberOfListens(): Int {
         return listens.size

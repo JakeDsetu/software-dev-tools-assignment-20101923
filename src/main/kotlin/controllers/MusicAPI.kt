@@ -1,24 +1,25 @@
 package setu.ie.controllers
 
-import setu.ie.models.Music
 import persistence.Serializer
+import setu.ie.models.Music
 
 class MusicAPI(serializerType: Serializer) {
     private var serializer: Serializer = serializerType
 
     private var songs = mutableListOf<Music>()
 
-    private fun formatListString(musicToFormat : List<Music>) : String =
+    private fun formatListString(musicToFormat: List<Music>): String =
         musicToFormat
-            .joinToString (separator = "\n") { music ->
-                songs.indexOf(music).toString() + ": " + music.toString() }
+            .joinToString(separator = "\n") { music ->
+                songs.indexOf(music).toString() + ": " + music.toString()
+            }
 
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
 
-    fun isValidIndex(index: Int) :Boolean{
-        return isValidListIndex(index, songs);
+    fun isValidIndex(index: Int): Boolean {
+        return isValidListIndex(index, songs)
     }
 
     fun findSong(index: Int): Music? {
@@ -27,8 +28,8 @@ class MusicAPI(serializerType: Serializer) {
         } else null
     }
 
-    fun addMusic(music: Music) : Boolean {
-        //code for adding a song with a unique id
+    fun addMusic(music: Music): Boolean {
+        // code for adding a song with a unique id
         return songs.add(music)
     }
 
@@ -55,7 +56,7 @@ class MusicAPI(serializerType: Serializer) {
             return true
         }
 
-        //if the song was not found, return false, indicating that the update was not successful
+        // if the song was not found, return false, indicating that the update was not successful
         return false
     }
 
