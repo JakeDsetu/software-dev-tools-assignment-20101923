@@ -14,7 +14,6 @@ class MusicAPI(serializerType: Serializer) {
     private var serializer: Serializer = serializerType
     private var songs = mutableListOf<Music>()
 
-
     /**
      * Takes a music list and formats each song into a single string,
      * separating each song with a new line.

@@ -12,7 +12,7 @@ package setu.ie.models
  * numberOfPublicStreams: How many streams does the song have from other people publicly.
  * hasVideo: checks if the song has a music video or not.
  */
-data class Music (
+data class Music(
     val id: Int,
     var musicTitle: String,
     var musicArtist: String,
@@ -21,4 +21,5 @@ data class Music (
     var genre: String,
     var isWrittenByArtist: Boolean,
     var numberOfPublicStreams: Int,
-    var hasVideo: Boolean)
+    var hasVideo: Boolean
+)

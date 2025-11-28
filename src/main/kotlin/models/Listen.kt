@@ -9,7 +9,7 @@ package setu.ie.models
  * application: the application used to listen to the song (Spotify, Youtube, Deezer, etc.).
  * timeOfDay: the time of day the listen happened (formatted in 24-hour time, e.g. 1300 = 1PM).
  */
-data class Listen (
+data class Listen(
     val id: Int,
     var musicId: Int,
     var numMinsListenedTo: Int,
