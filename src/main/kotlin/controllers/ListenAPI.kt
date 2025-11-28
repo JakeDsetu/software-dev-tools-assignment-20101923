@@ -60,17 +60,4 @@ class ListenAPI(serializerType: Serializer) {
             listens.removeAt(indexToDelete)
         } else null
     }
-
-    fun getListensByMusic(musicId: Int): List<Listen> =
-        listens.filter { it.musicId == musicId }
-
-    @Throws(Exception::class)
-    fun load() {
-        listens = serializer.read() as ArrayList<Listen>
-    }
-
-    @Throws(Exception::class)
-    fun store() {
-        serializer.write(listens)
-    }
 }

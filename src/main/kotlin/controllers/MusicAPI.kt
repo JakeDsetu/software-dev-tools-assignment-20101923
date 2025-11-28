@@ -64,18 +64,4 @@ class MusicAPI(serializerType: Serializer) {
             songs.removeAt(indexToDelete)
         } else null
     }
-
-    fun musicExists(musicId: Int): Music? {
-        return songs.find { it -> it.id == musicId }
-    }
-
-    @Throws(Exception::class)
-    fun load() {
-        songs = serializer.read() as ArrayList<Music>
-    }
-
-    @Throws(Exception::class)
-    fun store() {
-        serializer.write(songs)
-    }
 }
